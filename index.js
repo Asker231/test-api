@@ -5,23 +5,27 @@ const cors = require('cors')
 const  env = require('dotenv').config()
 
 
-console.log(env.parsed.PORT);
+
 
 const app = express()
 app.use(express.json())
 app.use(cors({origin:["http://localhost:5173"]}))
 
-app.listen(env.parsed.PORT,(err)=>{
+app.listen(3002,(err)=>{
     if(!err) console.log("Server run");
 })
 
+// const pool = new Pool({
+//   user:'postgres',
+//   host: 'localhost',
+//   database:'todo',
+//   password: '199823',
+//   port: '1998',
+// })
+
 const pool = new Pool({
-  user:'postgres',
-  host: 'localhost',
-  database:'todo',
-  password: '199823',
-  port: '1998',
-})
+    connectionString: process.env.POSTGRES_URL + "?sslmode=require",
+  })
 
 app.get('/',(req,res)=>{
     try {
